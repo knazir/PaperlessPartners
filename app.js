@@ -11,14 +11,14 @@ var express       = require('express'),
 var config  = require('./public/javascripts/server/config.js').config;
 
 /* MongoDB */
-var MongoURI = config.getMongoURI();
-mongoose.connect(MongoURI, function (err) {
-  if (err) {
-    console.log ('ERROR connecting to: ' + MongoURI + '. ' + err);
-  } else {
-    console.log ('Successfully connected to: ' + MongoURI);
-  }
-});
+// var MongoURI = config.getMongoURI();
+// mongoose.connect(MongoURI, function (err) {
+//   if (err) {
+//     console.log ('ERROR connecting to: ' + MongoURI + '. ' + err);
+//   } else {
+//     console.log ('Successfully connected to: ' + MongoURI);
+//   }
+// });
 
 /* Express Route and Error Handling */
 var app = express();
