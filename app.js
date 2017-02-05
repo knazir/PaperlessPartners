@@ -8,7 +8,7 @@ var express       = require('express'),
     mongoose      = require ('mongoose');
 
 /* JavaScript Files */
-var config  = require('public/javascripts/server/config.js').config;
+var config  = require(path.join(__dirname, 'public/javascripts/server/config.js')).config;
 
 /* MongoDB */
 // var MongoURI = config.getMongoURI();
