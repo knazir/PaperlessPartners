@@ -1,6 +1,6 @@
 const config = {
-    getIndexPage: function() {
-        return 'public/html/index.html';
+    getIndexPage: function(path) {
+        return path.join(__dirname, 'public/html/index.html');
     },
 
     getErrorPage: function() {

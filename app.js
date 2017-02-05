@@ -8,7 +8,7 @@ var express       = require('express'),
     mongoose      = require ('mongoose');
 
 /* JavaScript Files */
-var config  = require('./public/javascripts/server/config.js').config;
+var config  = require('public/javascripts/server/config.js').config;
 
 /* MongoDB */
 // var MongoURI = config.getMongoURI();
@@ -32,7 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 /* Routes */
 app.get('/', function(req, res, next) {
-  res.sendfile(config.getIndexPage(), {root: __dirname})
+  res.sendfile(config.getIndexPage(path), {root: __dirname})
 });
 
 // Catch 404 and forward to error handler
