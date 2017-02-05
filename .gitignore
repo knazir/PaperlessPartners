@@ -1,13 +1,9 @@
-# Files omitted until deployment
-deploy/
-
-# Compiled files
-Debug/
-
 # WebStorm
-.idea
-.editorconfig
-.gitattributes
+.idea/
+
+# Node modules and debug
+node_modules/
+npm-debug.log
 
 # OSX
 .DS_Store/

@@ -9,10 +9,10 @@
  */
 "use strict";
 
-var CONFIG = {
+var config = {
   // User Settings (EDIT HERE)
-  USER:             '',
-  PASSWORD:         '',
+  user:             '',
+  password:         '',
 
   // Login
   LOGIN_PAGE:       'https://paperless.stanford.edu/',
@@ -65,7 +65,7 @@ page.onLoadFinished = function() {
 
 page.onCallback = function(data) {
   if (data.render) {
-    page.render(CONFIG.OUTPUT_DIR + data.studentID + '/' + data.studentID + '_' + data.page + '.pdf');
+    page.render(config.OUTPUT_DIR + data.studentID + '/' + data.studentID + '_' + data.page + '.pdf');
   }
 };
 
@@ -74,15 +74,15 @@ page.onCallback = function(data) {
  * * * * * */
 var getQuarterCode = function() {
   // Spr2015 is the 0th quarter of pair-programming
-  var goalQuarter = CONFIG[CONFIG.QUARTER.substr(0, 3)],
-      goalYear    = parseInt(CONFIG.QUARTER.substring(3)),
-      year        = CONFIG.FIRST_YEAR,
-      quarter     = CONFIG.FIRST_QUARTER,
-      result      = CONFIG.FIRST_VALUE;
+  var goalQuarter = config[config.QUARTER.substr(0, 3)],
+      goalYear    = parseInt(config.QUARTER.substring(3)),
+      year        = config.FIRST_YEAR,
+      quarter     = config.FIRST_QUARTER,
+      result      = config.FIRST_VALUE;
 
   while (year !== goalYear || quarter !== goalQuarter) {
     quarter = (quarter + 1) % 4;
-    if (quarter === CONFIG.WIN) {
+    if (quarter === config.WIN) {
       year++;
     }
     result++;
@@ -91,11 +91,10 @@ var getQuarterCode = function() {
 };
 
 var getAssignmentURL = function() {
-  var result = [
-    CONFIG.PAPERLESS_URL, getQuarterCode(), CONFIG.CLASS,
-    'assignment', CONFIG.USER, 'assignment' + CONFIG.ASSIGNMENT
+  return [
+    config.PAPERLESS_URL, getQuarterCode(), config.CLASS,
+    'assignment', config.user, 'assignment' + config.ASSIGNMENT
   ].join('/');
-  return result;
 };
 
 /* * * * *
@@ -108,24 +107,24 @@ var loadLoginPage =   function() {
 
 var enterCredentials = function() {
   console.log('Entering credentials.');
-  page.evaluate(function(CONFIG) {
-    document.getElementById(CONFIG.USERNAME_INPUT).value = CONFIG.USER;
-    document.getElementById(CONFIG.PASSWORD_INPUT).value = CONFIG.PASSWORD;
-  }, CONFIG);
+  page.evaluate(function(config) {
+    document.getElementById(config.USERNAME_INPUT).value = config.user;
+    document.getElementById(config.PASSWORD_INPUT).value = config.password;
+  }, config);
 };
 
 var submitLogin = function() {
-  page.evaluate(function(CONFIG) {
+  page.evaluate(function(config) {
     console.log('Logging in.');
-    document.forms[CONFIG.LOGIN_FORM].submit();
-  }, CONFIG);
+    document.forms[config.LOGIN_FORM].submit();
+  }, config);
 };
 
 var doTwoStep = function() {
-  page.evaluate(function(CONFIG) {
+  page.evaluate(function(config) {
     console.log('Waiting for two-step authentication.');
-    document.forms[CONFIG.TWO_STEP_FORM].submit()
-  }, CONFIG);
+    document.forms[config.TWO_STEP_FORM].submit()
+  }, config);
 };
 
 var loadAssignmentPage = function() {
@@ -134,14 +133,14 @@ var loadAssignmentPage = function() {
 };
 
 var getSubmissionLinks = function() {
-  return page.evaluate(function(CONFIG) {
+  return page.evaluate(function(config) {
     console.log('Converting all submissions to PDFs.');
-    var submissions = document.getElementsByClassName(CONFIG.SUBMISSION_CLASS);
+    var submissions = document.getElementsByClassName(config.SUBMISSION_CLASS);
 
     return [].map.call(submissions, function (submission) {
       return submission.children[0].href;
     });
-  }, CONFIG);
+  }, config);
 };
 
 var makeRendererFunction = function makeRenderFunction(submissionLink) {
@@ -150,7 +149,7 @@ var makeRendererFunction = function makeRenderFunction(submissionLink) {
     console.log('Grabbing submission for ' + studentID);
 
     page.open(submissionLink, function() {
-      page.evaluate(function (CONFIG) {
+      page.evaluate(function (config) {
         var files = document.getElementsByClassName('filelink');
         for (var i = 0; i < files.length; i++) {
           // Freezes value of "i" from closure
@@ -160,10 +159,10 @@ var makeRendererFunction = function makeRenderFunction(submissionLink) {
               var student = window.location.pathname;
               student = student.substring(student.lastIndexOf('/') + 1, student.lastIndexOf('_'));
               window.callPhantom({render: true, studentID: student, page: i});
-            }, (i + 1) * CONFIG.DELAY);
+            }, (i + 1) * config.DELAY);
           })(i);
         }
-      }, CONFIG);
+      }, config);
     });
   }
 };
@@ -191,4 +190,4 @@ setInterval(function() {
     console.log('Finished');
     phantom.exit();
   }
-}, CONFIG.DELAY);
+}, config.DELAY);
