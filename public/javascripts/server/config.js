@@ -1,10 +1,10 @@
 const config = {
     getIndexPage: function() {
-        return './public/html/index.html';
+        return 'public/html/index.html';
     },
 
     getErrorPage: function() {
-        return './public/html/error.html';
+        return 'public/html/error.html';
     },
 
     getPort: function() {
