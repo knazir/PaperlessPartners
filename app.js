@@ -7,7 +7,7 @@ var express       = require('express'),
     logger        = require('morgan'),
     cookieParser  = require('cookie-parser'),
     bodyParser    = require('body-parser'),
-    mongodb       = require('mongodb'),
+    mongoose      = require('mongoose'),
     debug         = require('debug')('paperlesspartners:server'),
     http          = require('http'),
     socketIO      = require('socket.io'),
@@ -18,8 +18,8 @@ var express       = require('express'),
 var config  = require('./public/javascripts/server/config').config;
 
 /* MongoDB */
-var mongoURI = process.env.MONGOLAB_URI;
-mongodb.MongoClient.connect(mongoURI, { server: { auto_reconnect: true } }, function (err, db) {
+var mongoURI = config.getMongoURI();
+mongoose.connect(mongoURI, function (err, db) {
   if (err) {
     console.log ('ERROR connecting to: ' + mongoURI + '. ' + err);
   } else {
