@@ -47,9 +47,18 @@ var config = {
 /* * * * * * * * * *
  * PhantomJS Setup *
  * * * * * * * * * */
-var page = require('webpage').create(),
-    step = 0,
-    loadInProgress = false;
+var page            = require('webpage').create(),
+    system          = require('system'),
+    step            = 0,
+    loadInProgress  = false;
+
+if (system.args.length < 3) {
+  console.log('Please specify a sunet id and a password.');
+  phantom.exit(1);
+}
+
+config.user = system.args[1];
+config.password = system.args[2];
 
 page.onConsoleMessage = function (msg) {
   console.log(msg);
@@ -145,7 +154,7 @@ var getSubmissionLinks = function() {
 };
 
 var makeRendererFunction = function makeRenderFunction(submissionLink) {
-  var studentID = submissionLink.substring(submissionLink.lastIndexOf('/') + 1, student.lastIndexOf('_'));
+  var studentID = submissionLink.substring(submissionLink.lastIndexOf('/') + 1, submissionLink.lastIndexOf('_'));
   return function() {
     console.log('Grabbing submission for ' + studentID);
 

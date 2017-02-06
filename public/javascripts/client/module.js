@@ -26,6 +26,17 @@ angular.module('main', ['ngRoute'])
         };
     })
 
+    /* Data service for passing between controllers */
+    .service('data', function() {
+        data = {};
+
+        return {
+            getData: function() {
+                return data;
+            }
+        };
+    })
+
     /* Angular Routes */
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider
@@ -34,8 +45,8 @@ angular.module('main', ['ngRoute'])
                 controller:     'loginController'
             })
             .when('/compile', {
-                templateURL:    '/html/views/compile.html',
-                controller:     'mainController'
+                templateUrl:    '/html/views/compile.html',
+                controller:     'compileController'
             })
             .otherwise({
                 redirectTo:     '/'

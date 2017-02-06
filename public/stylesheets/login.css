@@ -286,20 +286,6 @@ label:hover:before {
   font-weight: bold;
 }
 
-.subtitle {
-  padding: 5px 0;
-  font-size: 18px;
-  color: #aaaaaa;
-  font-weight: bold;
-}
-
-.version {
-  font-size: 18px;
-  color: #aaaaaa;
-  font-weight: bold;
-  position: fixed;
-}
-
 .login-image {
   max-width: 100px;
 }

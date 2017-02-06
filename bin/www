@@ -3,10 +3,12 @@
 /**
  * Module dependencies.
  */
-var app       = require('../app'),
-    debug     = require('debug')('paperlesspartners:server'),
-    http      = require('http'),
-    socketIO  = require('socket.io');
+var app           = require('../app'),
+    debug         = require('debug')('paperlesspartners:server'),
+    http          = require('http'),
+    socketIO      = require('socket.io'),
+    childProcess  = require('child_process'),
+    phantomjs     = require('phantomjs-prebuilt');
 
 /**
  * Get port from environment and store in Express.
@@ -17,35 +19,17 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
-var server = http.createServer(app);
+//var server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
-app.listen(port, function() {
+var server = app.listen(port, function() {
   console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
+
 server.on('error', onError);
 server.on('listening', onListening);
-
-/**
- * Normalize a port into a number, string, or false.
- */
-function normalizePort(val) {
-  var port = parseInt(val, 10);
-
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
-
-  if (port >= 0) {
-    // port number
-    return port;
-  }
-
-  return false;
-}
 
 /**
  * Event listener for HTTP server "error" event.
@@ -94,3 +78,31 @@ io.on('connection', (socket) => {
 });
 
 setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
+
+// /* PhantomJS Setup */
+// var binPath = phantomjs.path;
+//
+// app.post('/compile', function(req, res) {
+//   var childArgs = [
+//     path.join(__dirname, '../public/javascripts/server/collect.js'),
+//     req.body.user,
+//     req.body.password
+//   ];
+//
+//   setInterval(function() {
+//
+//   }, 200);
+//
+//   var child = childProcess.execFile(binPath, childArgs, {
+//     detached: true,
+//     stdio: ['ignore', 1, 2]
+//   });
+//
+//   child.unref();
+//   child.stdout.on('data', function(data) {
+//       emitter = req.body.user + '-' + req.body.password[0] + '-message';
+//       io.emit(emitter, data);
+//   });
+//
+//   res.send(200);
+// });

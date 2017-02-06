@@ -14,8 +14,16 @@
     <link href="/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
     <link href="/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- Common Stylesheets -->
+    <link href="/stylesheets/main.css" rel="stylesheet" type="text/css">
+    <link href='/stylesheets/login.css' rel='stylesheet' type='text/css'>
+    <link href='/stylesheets/compile.css' rel='stylesheet' type='text/css'>
+
 </head>
-<body>
+<body ng-app="main">
+    <div class="version">Beta</div>
+
     <!-- Content Container -->
     <div ng-view></div>
 
@@ -30,7 +38,7 @@
 
     <!-- Modules and Controllers -->
     <script src="/javascripts/client/module.js" type="text/javascript"></script>
-    <script src="/javascripts/client/mainController.js" type="text/javascript"></script>
+    <script src="/javascripts/client/compileController.js" type="text/javascript"></script>
     <script src="/javascripts/client/loginController.js" type="text/javascript"></script>
 </body>
 </html>

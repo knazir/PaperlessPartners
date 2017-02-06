@@ -3,8 +3,8 @@ const config = {
         return path.join(__dirname, 'public/html/index.html');
     },
 
-    getErrorPage: function() {
-        return 'public/html/error.html';
+    getErrorPage: function(path) {
+        return path.join(__dirname, 'public/html/error.html');
     },
 
     getPort: function() {

@@ -1,0 +1,10 @@
+<div class="compile-centered">
+    <div ng-if="loading || debug" class="loader"></div>
+</div>
+
+<h2>{{status}}</h2>
+
+<div ng-if="!loading || debug">
+    <a ng-href="{{allSubmissionsLink}}"><button>Download All Submissions</button></a>
+    Message: {{message}}
+</div>
