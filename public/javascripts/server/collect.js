@@ -24,9 +24,9 @@ var config = {
   TWO_STEP_FORM:    'multifactor_send',
 
   // Paperless
-  CLASS:            'cs106a',
-  QUARTER:          'AUT2016',
-  ASSIGNMENT:       2,
+  course:           'cs106a',
+  quarter:          'AUT2016',
+  assignment:       2,
   PAPERLESS_URL:    'https://web.stanford.edu/class/cs198/cgi-bin/paperless',
   SUBMISSION_CLASS: 'latestSubmission',
 
@@ -36,12 +36,12 @@ var config = {
   AUT:              2,
   WIN:              3,
   FIRST_QUARTER:    0,
-  FIRST_YEAR:       2015,
-  FIRST_VALUE:      109,
+  FIRST_YEAR:       2012,
+  FIRST_VALUE:      97,
   DELAY:            100,
 
   // Other
-  OUTPUT_DIR:       './submissions/'
+  OUTPUT_DIR:       './public/downloads/'
 };
 
 /* * * * * * * * * *
@@ -52,13 +52,18 @@ var page            = require('webpage').create(),
     step            = 0,
     loadInProgress  = false;
 
-if (system.args.length < 3) {
-  console.log('Please specify a sunet id and a password.');
+if (system.args.length < 6) {
+  console.log('Please specify a sunet id, password, course, quarter, and assignment. Only specified ' +
+               system.args.length + ' arguments.');
   phantom.exit(1);
 }
 
-config.user = system.args[1];
-config.password = system.args[2];
+/* Configure From Arguments */
+config.user       = system.args[1];
+config.password   = system.args[2];
+config.course     = system.args[3];
+config.quarter    = system.args[4];
+config.assignment = system.args[5];
 
 page.onConsoleMessage = function (msg) {
   console.log(msg);
@@ -74,8 +79,8 @@ page.onLoadFinished = function() {
 
 page.onCallback = function(data) {
   if (data.render) {
-    page.render(config.OUTPUT_DIR + config.user + '/' + config.QUARTER + '/assignment' + config.ASSIGNMENT  + '/' +
-                data.studentID + '/' + data.studentID + '_' + data.page + '.pdf');
+    page.render(config.OUTPUT_DIR + config.user + '/' + config.course + '/' + config.quarter + '/assignment' +
+                config.assignment  + '/' + data.studentID + '/' + data.studentID + '_' + data.page + '.pdf');
   }
 };
 
@@ -84,8 +89,8 @@ page.onCallback = function(data) {
  * * * * * */
 var getQuarterCode = function() {
   // Spr2015 is the 0th quarter of pair-programming
-  var goalQuarter = config[config.QUARTER.substr(0, 3)],
-      goalYear    = parseInt(config.QUARTER.substring(3)),
+  var goalQuarter = config[config.quarter.substr(0, 3)],
+      goalYear    = parseInt(config.quarter.substring(3)),
       year        = config.FIRST_YEAR,
       quarter     = config.FIRST_QUARTER,
       result      = config.FIRST_VALUE;
@@ -102,8 +107,8 @@ var getQuarterCode = function() {
 
 var getAssignmentURL = function() {
   return [
-    config.PAPERLESS_URL, getQuarterCode(), config.CLASS,
-    'assignment', config.user, 'assignment' + config.ASSIGNMENT
+    config.PAPERLESS_URL, getQuarterCode(), config.course,
+    'assignment', config.user, 'assignment' + config.assignment
   ].join('/');
 };
 
@@ -197,7 +202,6 @@ setInterval(function() {
     step++;
   }
   if (typeof steps[step] !== 'function') {
-    console.log('Finished');
     phantom.exit();
   }
 }, config.DELAY);

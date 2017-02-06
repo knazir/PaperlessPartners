@@ -2,7 +2,7 @@
 .idea/
 
 # Test Submissions
-public/javascripts/server/submissions
+public/downloads/
 
 # Node modules and debug
 node_modules/

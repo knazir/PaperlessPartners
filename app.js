@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /* Dependencies */
 var express       = require('express'),
     path          = require('path'),
@@ -5,7 +7,12 @@ var express       = require('express'),
     logger        = require('morgan'),
     cookieParser  = require('cookie-parser'),
     bodyParser    = require('body-parser'),
-    mongoose      = require ('mongoose');
+    mongoose      = require ('mongoose'),
+    debug         = require('debug')('paperlesspartners:server'),
+    http          = require('http'),
+    socketIO      = require('socket.io'),
+    childProcess  = require('child_process'),
+    phantomjs     = require('phantomjs-prebuilt');
 
 /* JavaScript Files */
 var config  = require('./public/javascripts/server/config').config;
@@ -20,10 +27,125 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+/**
+ * Get port from environment and store in Express.
+ */
+var port = process.env.PORT || 3000;
+app.set('port', port);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+var server = app.listen(port, function() {
+  console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+});
+
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+      ? 'Pipe ' + port
+      : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+      ? 'pipe ' + addr
+      : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}
+
 /* Routes */
 app.get('/', function(req, res, next) {
-  console.log('test');
-  res.sendfile('./public/html/index.html', {root: __dirname})
+  res.sendFile('./public/html/index.html', {root: __dirname})
+});
+
+/* Socket.io */
+var io = socketIO.listen(server);
+
+io.on('connection', (socket) => {
+  console.log('Client connected to socket.');
+  socket.on('disconnect', () => console.log('Client disconnected from socket.'));
+});
+
+setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
+
+/* PhantomJS Setup */
+var binPath = phantomjs.path;
+
+app.post('/compile', function(req, res) {
+  var childArgs = [
+      './public/javascripts/server/collect.js',
+      req.body.user,
+      req.body.password,
+      req.body.course,
+      req.body.quarter,
+      req.body.assignment
+  ];
+
+  var child = childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
+    console.log('Downloaded submissions for user: ' + req.body.user);
+  });
+
+  child.unref();
+  child.stdout.on('data', function(data) {
+    emitter = req.body.user + '-' + req.body.password[0] + '-message';
+    io.emit(emitter, data.toString('utf8'));
+  });
+
+  child.on('exit', function(code) {
+    var submissionsDir = './public/downloads/' + req.body.user + '/' + req.body.course + '/' + req.body.quarter + '/' +
+        'assignment' + req.body.assignment;
+    var submissionsZip = 'assignment' + req.body.assignment + '/assignment' + req.body.assignment + '_submissions.zip';
+    var zipCommand = 'cd ' + submissionsDir + '/.. && zip -r ' + submissionsZip + ' assignment' + req.body.assignment + '/';
+
+    console.log('Running command: ' + zipCommand);
+
+    var zipper = childProcess.exec(zipCommand, function(err, stdout, stderr) {
+      emitter = req.body.user + '-' + req.body.password[0] + '-message';
+      if (err) {
+        io.emit(emitter, 'An error occurred.');
+      } else {
+        io.emit(emitter, 'Finished.');
+        console.log('Zipped up submissions for user: ' + req.body.user);
+      }
+    });
+    zipper.unref();
+  });
+
+  res.sendStatus(200);
+});
+
+app.post('/download', function(req, res) {
+  console.log('Location: ' + req.body.location);
+  var file = './public/downloads/' + req.body.location;
+  res.send(file);
 });
 
 // Catch 404 and forward to error handler

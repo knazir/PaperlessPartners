@@ -88,7 +88,7 @@ if (typeof jQuery === 'undefined') {
 +function ($) {
   'use strict';
 
-  // ALERT CLASS DEFINITION
+  // ALERT course DEFINITION
   // ======================
 
   var dismiss = '[data-dismiss="alert"]'
@@ -183,7 +183,7 @@ if (typeof jQuery === 'undefined') {
 +function ($) {
   'use strict';
 
-  // BUTTON PUBLIC CLASS DEFINITION
+  // BUTTON PUBLIC course DEFINITION
   // ==============================
 
   var Button = function (element, options) {
@@ -309,7 +309,7 @@ if (typeof jQuery === 'undefined') {
 +function ($) {
   'use strict';
 
-  // CAROUSEL CLASS DEFINITION
+  // CAROUSEL course DEFINITION
   // =========================
 
   var Carousel = function (element, options) {
@@ -548,7 +548,7 @@ if (typeof jQuery === 'undefined') {
 +function ($) {
   'use strict';
 
-  // COLLAPSE PUBLIC CLASS DEFINITION
+  // COLLAPSE PUBLIC course DEFINITION
   // ================================
 
   var Collapse = function (element, options) {
@@ -760,7 +760,7 @@ if (typeof jQuery === 'undefined') {
 +function ($) {
   'use strict';
 
-  // DROPDOWN CLASS DEFINITION
+  // DROPDOWN course DEFINITION
   // =========================
 
   var backdrop = '.dropdown-backdrop'
@@ -926,7 +926,7 @@ if (typeof jQuery === 'undefined') {
 +function ($) {
   'use strict';
 
-  // MODAL CLASS DEFINITION
+  // MODAL course DEFINITION
   // ======================
 
   var Modal = function (element, options) {
@@ -1267,7 +1267,7 @@ if (typeof jQuery === 'undefined') {
 +function ($) {
   'use strict';
 
-  // TOOLTIP PUBLIC CLASS DEFINITION
+  // TOOLTIP PUBLIC course DEFINITION
   // ===============================
 
   var Tooltip = function (element, options) {
@@ -1787,7 +1787,7 @@ if (typeof jQuery === 'undefined') {
 +function ($) {
   'use strict';
 
-  // POPOVER PUBLIC CLASS DEFINITION
+  // POPOVER PUBLIC course DEFINITION
   // ===============================
 
   var Popover = function (element, options) {
@@ -1896,7 +1896,7 @@ if (typeof jQuery === 'undefined') {
 +function ($) {
   'use strict';
 
-  // SCROLLSPY CLASS DEFINITION
+  // SCROLLSPY course DEFINITION
   // ==========================
 
   function ScrollSpy(element, options) {
@@ -2069,7 +2069,7 @@ if (typeof jQuery === 'undefined') {
 +function ($) {
   'use strict';
 
-  // TAB CLASS DEFINITION
+  // TAB course DEFINITION
   // ====================
 
   var Tab = function (element) {
@@ -2225,7 +2225,7 @@ if (typeof jQuery === 'undefined') {
 +function ($) {
   'use strict';
 
-  // AFFIX CLASS DEFINITION
+  // AFFIX course DEFINITION
   // ======================
 
   var Affix = function (element, options) {
