@@ -12,7 +12,7 @@ const config = {
     },
 
     getMongoURI: function() {
-        return process.env.MONGOLAB_URI || process.env.MONGOHQ_URL  || 'mongodb://localhost:27017/data/db';
+        return process.env.MONGOLAB_URI || process.env.MONGODB_URI  || 'mongodb://localhost:27017/data/db';
     },
 
     isTesting: function() {
