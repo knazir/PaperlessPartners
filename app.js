@@ -20,6 +20,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+/* Routes */
+app.get('/', function(req, res, next) {
+  console.log('test');
+  res.sendfile('./public/html/index.html', {root: __dirname})
+});
+
 // Catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -36,12 +42,6 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.sendFile('./public/html/error.html', {root: __dirname});
-});
-
-/* Routes */
-app.get('/', function(req, res, next) {
-  console.log('test');
-  res.sendfile('./public/html/index.html', {root: __dirname})
 });
 
 /* Export Express App */
