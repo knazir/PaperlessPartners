@@ -1,6 +1,9 @@
 # WebStorm
 .idea/
 
+# Test Submissions
+public/javascripts/server/submissions
+
 # Node modules and debug
 node_modules/
 npm-debug.log

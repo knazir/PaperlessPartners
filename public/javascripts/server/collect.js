@@ -65,7 +65,8 @@ page.onLoadFinished = function() {
 
 page.onCallback = function(data) {
   if (data.render) {
-    page.render(config.OUTPUT_DIR + data.studentID + '/' + data.studentID + '_' + data.page + '.pdf');
+    page.render(config.OUTPUT_DIR + config.user + '/' + config.QUARTER + '/assignment' + config.ASSIGNMENT  + '/' +
+                data.studentID + '/' + data.studentID + '_' + data.page + '.pdf');
   }
 };
 
@@ -144,7 +145,7 @@ var getSubmissionLinks = function() {
 };
 
 var makeRendererFunction = function makeRenderFunction(submissionLink) {
-  var studentID = submissionLink.substring(submissionLink.lastIndexOf('/') + 1);
+  var studentID = submissionLink.substring(submissionLink.lastIndexOf('/') + 1, student.lastIndexOf('_'));
   return function() {
     console.log('Grabbing submission for ' + studentID);
 

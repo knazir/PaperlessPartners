@@ -86,7 +86,7 @@ function onListening() {
 }
 
 /* Socket.io */
-var io = socketIO(server);
+var io = socketIO.listen(server);
 
 io.on('connection', (socket) => {
   console.log('Client connected to socket.');
