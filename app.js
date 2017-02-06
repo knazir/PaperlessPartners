@@ -19,7 +19,7 @@ var config  = require('./public/javascripts/server/config').config;
 
 /* MongoDB */
 var mongoURI = process.env.MONGOLAB_URI;
-mongoose.MongoClient.connect(mongoURI, { server: { auto_reconnect: true } }, function (err, db) {
+mongodb.MongoClient.connect(mongoURI, { server: { auto_reconnect: true } }, function (err, db) {
   if (err) {
     console.log ('ERROR connecting to: ' + mongoURI + '. ' + err);
   } else {
