@@ -17,6 +17,16 @@ var express       = require('express'),
 /* JavaScript Files */
 var config  = require('./public/javascripts/server/config').config;
 
+/* MongoDB */
+var mongoURI = config.getMongoURI();
+mongoose.connect(mongoURI, function (err, res) {
+  if (err) {
+    console.log ('ERROR connecting to: ' + mongoURI + '. ' + err);
+  } else {
+    console.log ('Successfully connected to: ' + mongoURI);
+  }
+});
+
 /* Express Route and Error Handling */
 var app = express();
 
