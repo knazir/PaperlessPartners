@@ -1,11 +1,17 @@
-<div class="compile-centered">
-    <div ng-if="loading" class="loader"></div>
+<div class="compile">
+    <div class="center-vertical">
+        <div class="center-horizontal">
+            <div class="center-card text-md-center">
+                <h1 class="centered">Compiling Submissions</h1>
+                <div class="centered">
+                    <a ng-href="{{allSubmissionsLink}}"><button id="loading_button" class="btn btn-lg btn-primary m-progress">
+                        Download
+                    </button></a>
+                </div>
+                <p class="card-text centered">
+                    {{message}}
+                </p>
+            </div>
+        </div>
+    </div>
 </div>
-
-<h2>{{status}}</h2>
-
-<div ng-if="!loading">
-    <a ng-href="{{allSubmissionsLink}}"><button id="download_button">Download All Submissions</button></a>
-</div>
-
-Message: {{message}}

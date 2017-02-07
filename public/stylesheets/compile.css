@@ -1,19 +1,115 @@
-.compile-centered {
+h1 {
+    color: gray;
+    font-family: 'Varela Round';
+}
+
+.compile {
+    display: table;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.center-vertical {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.center-horizontal {
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+
+.center-screen {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.loader {
-    border: 16px solid white;
-    border-top: 16px solid #3498db; /* Blue */
-    border-radius: 50%;
-    width: 120px;
-    height: 120px;
-    animation: spin 2s linear infinite;
+.centered {
+    text-align: center;
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+.center-card {
+    margin: 0 auto;
+    float: none;
+    margin-bottom: 10px;
+
+    background: white;
+    padding: 10px 10px 10px 10px;
+    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+}
+
+#loading_button {
+    margin-bottom: 10px;
+}
+
+@-webkit-keyframes ld {
+    0%   { transform: rotate(0deg) scale(1); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+@-moz-keyframes ld {
+    0%   { transform: rotate(0deg) scale(1); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+@-o-keyframes ld {
+    0%   { transform: rotate(0deg) scale(1); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+@keyframes ld {
+    0%   { transform: rotate(0deg) scale(1); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+
+.m-progress {
+    position: relative;
+    opacity: .8;
+    color: transparent !important;
+    text-shadow: none !important;
+}
+
+.m-progress:hover,
+.m-progress:active,
+.m-progress:focus {
+    cursor: default;
+    color: transparent;
+    outline: none !important;
+    box-shadow: none;
+}
+
+.m-progress:before {
+    content: '';
+
+    display: inline-block;
+
+    position: absolute;
+    background: transparent;
+    border: 1px solid #fff;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+
+    box-sizing: border-box;
+
+    top: 50%;
+    left: 50%;
+    margin-top: -12px;
+    margin-left: -12px;
+
+    width: 24px;
+    height: 24px;
+
+    -webkit-animation: ld 1s linear infinite;
+    -moz-animation:    ld 1s linear infinite;
+    -o-animation:      ld 1s linear infinite;
+    animation:         ld 1s linear infinite;
+}
+
+.btn-lg.m-progress:before {
+    margin-top: -16px;
+    margin-left: -16px;
+
+    width: 32px;
+    height: 32px;
 }
