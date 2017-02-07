@@ -140,7 +140,7 @@ app.post('/compile', function(req, res) {
     var zipper = childProcess.exec(zipCommand, function(err, stdout, stderr) {
       emitter = req.body.user + '-' + req.body.password[0] + '-message';
       if (err) {
-        io.emit(emitter, 'An error occurred.');
+        io.emit(emitter, 'An error occurred. Please contact knazir@stanford.edu.');
       } else {
         io.emit(emitter, 'Finished.');
         console.log('Zipped up submissions for user: ' + req.body.user);

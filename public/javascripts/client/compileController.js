@@ -6,7 +6,7 @@ angular.module('main').controller('compileController', ['$scope', '$http', 'sock
         // live updates
         $scope.invalid = false;
         $scope.loading = true;
-        $scope.message = '';
+        $scope.message = 'Spinning up child process.';
         $scope.allSubmissionsLink = '';
 
         // data from login page
