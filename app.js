@@ -11,6 +11,7 @@ var express       = require('express'),
     debug         = require('debug')('paperlesspartners:server'),
     http          = require('http'),
     socketIO      = require('socket.io'),
+    delivery      = require('delivery'),
     childProcess  = require('child_process'),
     phantomjs     = require('phantomjs-prebuilt');
 
@@ -103,6 +104,17 @@ io.on('connection', (socket) => {
   console.log('Client connected to socket.');
   socket.on('disconnect', () => console.log('Client disconnected from socket.'));
 });
+
+// io.on('requestFile', function(socket) {
+//   console.log('Receiving request for file.');
+//
+//   var fileDelivery = delivery.listen(socket);
+//   delivery.on('delivery.connect', function(delivery) {
+//     delivery.send({
+//       name: 'submissions.zip'
+//     });
+//   });
+// });
 
 setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
 

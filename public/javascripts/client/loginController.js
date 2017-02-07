@@ -8,8 +8,44 @@ angular.module('main').controller('loginController', ['$scope', '$location', '$h
         $scope.quarter = '';
         $scope.assignment = '';
 
+        // error handling
+        $scope.hasErrors = function() {
+            var missingElements = [];
+
+            if ($scope.user === '') {
+                missingElements.push('sunet');
+            }
+
+            if ($scope.password === '') {
+                missingElements.push('password');
+            }
+
+            if ($scope.course === '') {
+                missingElements.push('course');
+            }
+
+            if ($scope.quarter === '') {
+                missingElements.push('quarter');
+            }
+
+            if ($scope.assignment === '') {
+                missingElements.push('assignment');
+            }
+
+            if (missingElements.length > 0) {
+                $scope.error = missingElements.join(', ');
+                return true;
+            } else {
+                return false;
+            }
+        };
+
         // form submission
         $scope.compile = function() {
+            if ($scope.hasErrors()) {
+                return;
+            }
+
             data.getData().userData = {
                 user:       $scope.user,
                 password:   $scope.password,

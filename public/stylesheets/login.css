@@ -50,6 +50,7 @@ a:hover {
 }
 .main-login-form {
   position: relative;
+  box-shadow: 0 10px 38px rgba(0,0,0,0.30), 0 2px 12px rgba(0,0,0,0.22);
 }
 .login-form-1 .form-control {
   border: 0;

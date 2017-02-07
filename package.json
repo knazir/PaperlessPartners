@@ -11,6 +11,7 @@
     "child_process": "^1.0.2",
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
+    "delivery": "0.0.6",
     "express": "~4.14.0",
     "filepicker": "^0.2.0",
     "http": "0.0.0",
