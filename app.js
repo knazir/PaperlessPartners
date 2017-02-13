@@ -142,7 +142,7 @@ app.post('/compile', function(req, res) {
   });
 
   child.on('exit', function(code) {
-    var submissionsDir = './public/downloads/' + req.body.user + '/' + req.body.course + '/' + req.body.quarter + '/' +
+    var submissionsDir = '/tmp/' + req.body.user + '/' + req.body.course + '/' + req.body.quarter + '/' +
         'assignment' + req.body.assignment;
     var submissionsZip = 'assignment' + req.body.assignment + '/assignment' + req.body.assignment + '_submissions.zip';
     var zipCommand = 'cd ' + submissionsDir + '/.. && zip -r ' + submissionsZip + ' assignment' + req.body.assignment + '/';
