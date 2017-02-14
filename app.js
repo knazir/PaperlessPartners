@@ -165,7 +165,7 @@ app.get('/download', function(req, res) {
   console.log('Location: ' + req.query.location);
   console.log('Token: ' + req.query.token);
 
-  var file = 'downloads/' + req.query.token + '/' + req.query.location;
+  var file = './public/downloads/' + req.query.token + '/' + req.query.location;
   console.log('file: ' + file);
 
   res.download(file);
