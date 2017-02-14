@@ -168,6 +168,23 @@ app.get('/download', function(req, res) {
   var file = './public/downloads/' + req.query.token + '/' + req.query.location;
   console.log('file: ' + file);
 
+  files = (function (dir, files_){
+    files_ = files_ || [];
+    var files = fs.readdirSync(dir);
+    for (var i in files){
+      var name = dir + '/' + files[i];
+      if (fs.statSync(name).isDirectory()){
+        getFiles(name, files_);
+      } else {
+        files_.push(name);
+      }
+    }
+    return files_;
+  })(file);
+
+  console.log('Files:');
+  console.log(files);
+
   res.download(file);
 });
 
