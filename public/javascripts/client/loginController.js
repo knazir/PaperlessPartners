@@ -8,6 +8,10 @@ angular.module('main').controller('loginController', ['$scope', '$location', '$h
         $scope.quarter = '';
         $scope.assignment = '';
 
+        $scope.createToken = function() {
+            return Math.random().toString(36).replace(/[^a-z]+/g, '');
+        };
+
         // error handling
         $scope.hasErrors = function() {
             var missingElements = [];
@@ -46,12 +50,15 @@ angular.module('main').controller('loginController', ['$scope', '$location', '$h
                 return;
             }
 
+            var uniqueToken = $scope.createToken();
+
             data.getData().userData = {
                 user:       $scope.user,
                 password:   $scope.password,
                 course:     $scope.course,
                 quarter:    $scope.quarter,
-                assignment: $scope.assignment
+                assignment: $scope.assignment,
+                token:      uniqueToken
             };
 
             $http.post('/compile', {
@@ -59,13 +66,14 @@ angular.module('main').controller('loginController', ['$scope', '$location', '$h
                 password:   $scope.password,
                 course:     $scope.course.toLowerCase(),
                 quarter:    $scope.quarter.toUpperCase(),
-                assignment: $scope.assignment
+                assignment: $scope.assignment,
+                token:      uniqueToken
             })
             .success(function(data, status, headers, config) {
                 $location.path('compile');
             })
             .error(function(data, status, header, config) {
-                $scope.error = 'Unable to make POST request.';
+                $scope.error = 'Unable to make request to server.';
             });
     };
 }]);

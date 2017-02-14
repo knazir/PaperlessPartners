@@ -41,7 +41,7 @@ var config = {
   DELAY:            100,
 
   // Other
-  OUTPUT_DIR:       './public/downloads/'
+  OUTPUT_DIR:       '/tmp/downloads/'
 };
 
 /* * * * * * * * * *
@@ -64,6 +64,7 @@ config.password   = system.args[2];
 config.course     = system.args[3];
 config.quarter    = system.args[4];
 config.assignment = system.args[5];
+config.token      = system.args[6];
 
 page.onConsoleMessage = function (msg) {
   console.log(msg);
@@ -79,8 +80,9 @@ page.onLoadFinished = function() {
 
 page.onCallback = function(data) {
   if (data.render) {
-    page.render(config.OUTPUT_DIR + config.user + '/' + config.course + '/' + config.quarter + '/assignment' +
-                config.assignment  + '/' + data.studentID + '/' + data.studentID + '_' + data.page + '.pdf');
+    page.render(config.OUTPUT_DIR + config.token + '/' + config.user + '/' + config.course + '/' + config.quarter +
+                '/assignment' + config.assignment  + '/' + data.studentID + '/' + data.studentID + '_' +
+                data.page + '.pdf');
   }
 };
 

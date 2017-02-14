@@ -11,7 +11,6 @@ var express       = require('express'),
     debug         = require('debug')('paperlesspartners:server'),
     http          = require('http'),
     socketIO      = require('socket.io'),
-    delivery      = require('delivery'),
     childProcess  = require('child_process'),
     phantomjs     = require('phantomjs-prebuilt');
 
@@ -105,17 +104,6 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => console.log('Client disconnected from socket.'));
 });
 
-// io.on('requestFile', function(socket) {
-//   console.log('Receiving request for file.');
-//
-//   var fileDelivery = delivery.listen(socket);
-//   delivery.on('delivery.connect', function(delivery) {
-//     delivery.send({
-//       name: 'submissions.zip'
-//     });
-//   });
-// });
-
 setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
 
 /* PhantomJS Setup */
@@ -128,7 +116,8 @@ app.post('/compile', function(req, res) {
       req.body.password,
       req.body.course,
       req.body.quarter,
-      req.body.assignment
+      req.body.assignment,
+      req.body.token
   ];
 
   var child = childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
@@ -142,8 +131,8 @@ app.post('/compile', function(req, res) {
   });
 
   child.on('exit', function(code) {
-    var submissionsDir = '/tmp/' + req.body.user + '/' + req.body.course + '/' + req.body.quarter + '/' +
-        'assignment' + req.body.assignment;
+    var submissionsDir = '/tmp/downloads/' + req.body.token + '/' + req.body.user + '/' + req.body.course + '/' +
+        req.body.quarter + '/' + 'assignment' + req.body.assignment;
     var submissionsZip = 'assignment' + req.body.assignment + '/assignment' + req.body.assignment + '_submissions.zip';
     var zipCommand = 'cd ' + submissionsDir + '/.. && zip -r ' + submissionsZip + ' assignment' + req.body.assignment + '/';
 
@@ -164,10 +153,12 @@ app.post('/compile', function(req, res) {
   res.sendStatus(200);
 });
 
-app.post('/download', function(req, res) {
-  console.log('Location: ' + req.body.location);
-  var file = './public/downloads/' + req.body.location;
-  res.send(file);
+app.get('/download', function(req, res) {
+  console.log('Location: ' + req.query.location);
+  console.log('Token: ' + req.query.token);
+
+  var file = '/tmp/downloads/' + req.query.token + '/' + req.query.location;
+  res.download(file);
 });
 
 // Catch 404 and forward to error handler

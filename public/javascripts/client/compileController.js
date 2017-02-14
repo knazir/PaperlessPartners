@@ -7,12 +7,13 @@ angular.module('main').controller('compileController', ['$scope', '$http', 'sock
         $scope.invalid = false;
         $scope.loading = true;
         $scope.message = 'Spinning up child process.';
-        $scope.allSubmissionsLink = '/#/';
+        $scope.allSubmissionsLink = '';
 
         // data from login page
         $scope.userData = data.getData().userData;
         if ($scope.userData === undefined) {
             $scope.invalid = true;
+            $scope.allSubmissionsLink = '/#/';
             $scope.loading = false;
             $scope.message = 'Please search from the home page to compile submissions.';
 
@@ -23,22 +24,6 @@ angular.module('main').controller('compileController', ['$scope', '$http', 'sock
             return;
         }
 
-        // File delivery through socket
-        socket.on('connect', function() {
-            var delivery = new Delivery(socket);
-            delivery.on('receive.start', function(fileUID) {
-                console.log('Receiving file...');
-            });
-
-            delivery.on('receive.success', function(file) {
-                console.log('Successfully received file!');
-
-                var params = file.params;
-                console.log('Params: ' + params);
-                console.log('File @ ' + file.dataURL);
-            });
-        });
-
         // Live updates on progress
         $scope.emitter = $scope.userData.user + '-' + $scope.userData.password[0] + '-message';
 
@@ -47,14 +32,35 @@ angular.module('main').controller('compileController', ['$scope', '$http', 'sock
 
             if ($scope.message.startsWith('Finished.')) {
                 $scope.loading = false;
-                $scope.allSubmissionsLink = '/downloads/' + $scope.userData.user + '/' + $scope.userData.course + '/' +
-                                            $scope.userData.quarter + '/' + 'assignment' + $scope.userData.assignment +
-                                            '/assignment' + $scope.userData.assignment + '_submissions.zip';
+                var token = data.getData().userData.token;
+                var fileLocation = $scope.userData.user + '/' + $scope.userData.course + '/' +
+                                   $scope.userData.quarter + '/' + 'assignment' + $scope.userData.assignment +
+                                   '/assignment' + $scope.userData.assignment + '_submissions.zip';
 
-                //socket.emit('requestFile', {path: $scope.allSubmissionsLink});
+                var link = window.location.protocol + "//" + window.location.host + "/download";
+                link += '?token=' + token + '&location=' + fileLocation;
+                $scope.allSubmissionsLink = link;
 
-                $scope.message = 'Finished compiling submissions. Please click above to download.';
-                document.getElementById('loading_button').className = 'btn btn-lg btn-primary';
+                var button = document.getElementById('loading_button');
+                button.className = 'btn btn-lg btn-primary';
+                button.onclick = function() {
+                    window.location.href = link;
+                };
+                button.click();
+
+                $scope.message = 'Finished. Click above if your download does not start.';
             }
         });
+
+        $scope.gotoDownloadLink = function() {
+            $http.post('/download', {
+                location: $scope.allSubmissionsLink
+            })
+            .success(function(data, status, headers, config) {
+                console.log('Successfully received file.');
+            })
+            .error(function(data, status, header, config) {
+                $scope.message = 'An error occurred. Please contact knazir@stanford.edu.';
+            });
+        };
 }]);
