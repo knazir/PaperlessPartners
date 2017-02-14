@@ -176,7 +176,8 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.sendFile('./public/html/error.html', {root: __dirname});
+  res.send('An error occurred. Status: ' + (err.status || 500) + '. Message: ' + err.message + '. Error: ' + req.app.get('env') === 'development' ? err : {});
+  //res.sendFile('./public/html/error.html', {root: __dirname});
 });
 
 /* Export Express App */
