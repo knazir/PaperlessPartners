@@ -2,7 +2,7 @@
 .idea/
 
 # Test Submissions
-public/downloads/
+public/downloads/*
 
 # Upload tmp directory but not contents
 tmp/*
