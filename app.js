@@ -166,8 +166,9 @@ app.get('/download', function(req, res) {
   console.log('Token: ' + req.query.token);
 
   var file = './public/downloads/' + req.query.token + '/' + req.query.location;
-  console.log('file: ' + file);
+  console.log('file location: ' + file);
 
+  console.log('Scanning files...');
   files = (function (dir, files_){
     files_ = files_ || [];
     var files = fs.readdirSync(dir);
@@ -180,7 +181,7 @@ app.get('/download', function(req, res) {
       }
     }
     return files_;
-  })(file);
+  })('./');
 
   console.log('Files:');
   console.log(files);
