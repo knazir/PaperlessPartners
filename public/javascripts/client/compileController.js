@@ -46,9 +46,8 @@ angular.module('main').controller('compileController', ['$scope', '$http', 'sock
                 button.onclick = function() {
                     window.location.href = link;
                 };
-                button.click();
 
-                $scope.message = 'Finished. Click above if your download does not start.';
+                $scope.message = 'Finished. Click above to download the compiled submissions.';
             }
         });
 
