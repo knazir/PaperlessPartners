@@ -3,7 +3,9 @@
 
 # Test Submissions
 public/downloads/
-tmp/
+
+# Upload tmp directory but not contents
+tmp/*
 
 # Node modules and debug
 node_modules/
