@@ -41,7 +41,7 @@ var config = {
   DELAY:            100,
 
   // Other
-  OUTPUT_DIR:       '/tmp/downloads/'
+  OUTPUT_DIR:       './tmp/downloads/'
 };
 
 /* * * * * * * * * *

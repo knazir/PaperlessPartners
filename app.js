@@ -3,6 +3,7 @@
 /* Dependencies */
 var express       = require('express'),
     path          = require('path'),
+    fs            = require("fs"),
     favicon       = require('serve-favicon'),
     logger        = require('morgan'),
     cookieParser  = require('cookie-parser'),
@@ -16,6 +17,13 @@ var express       = require('express'),
 
 /* JavaScript Files */
 var config  = require('./public/javascripts/server/config').config;
+
+/* Create Temporary Storage */
+var temp_dir = path.join(process.cwd(), 'tmp/');
+
+if (!fs.existsSync(temp_dir)) {
+  fs.mkdirSync(temp_dir);
+}
 
 /* MongoDB */
 var mongoURI = config.getMongoURI();
@@ -131,7 +139,7 @@ app.post('/compile', function(req, res) {
   });
 
   child.on('exit', function(code) {
-    var submissionsDir = '/tmp/downloads/' + req.body.token + '/' + req.body.user + '/' + req.body.course + '/' +
+    var submissionsDir = './tmp/downloads/' + req.body.token + '/' + req.body.user + '/' + req.body.course + '/' +
         req.body.quarter + '/' + 'assignment' + req.body.assignment;
     var submissionsZip = 'assignment' + req.body.assignment + '/assignment' + req.body.assignment + '_submissions.zip';
     var zipCommand = 'cd ' + submissionsDir + '/.. && zip -r ' + submissionsZip + ' assignment' + req.body.assignment + '/';
@@ -157,7 +165,7 @@ app.get('/download', function(req, res) {
   console.log('Location: ' + req.query.location);
   console.log('Token: ' + req.query.token);
 
-  var file = '/tmp/downloads/' + req.query.token + '/' + req.query.location;
+  var file = './tmp/downloads/' + req.query.token + '/' + req.query.location;
   console.log('file: ' + file);
 
   res.download(file);

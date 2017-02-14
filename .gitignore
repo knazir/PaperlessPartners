@@ -3,6 +3,7 @@
 
 # Test Submissions
 public/downloads/
+tmp/
 
 # Node modules and debug
 node_modules/
