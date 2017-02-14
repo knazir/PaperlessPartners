@@ -20,6 +20,7 @@ var config  = require('./public/javascripts/server/config').config;
 
 /* Create Temporary Storage */
 var tempDir = path.join(process.cwd(), 'public/downloads');
+console.log('Making tempDir: ' + tempDir);
 
 if (!fs.existsSync(tempDir)) {
   fs.mkdirSync(tempDir);
@@ -182,8 +183,12 @@ app.get('/download', function(req, res) {
     }
     return files_;
   };
+
+  var files = getFiles('/app');
   console.log('Files:');
-  console.log(getFiles('/app/'));
+  for (var i = 0; i < files.length; i++) {
+    console.log(files[i]);
+  }
 
   res.download(file);
 });
