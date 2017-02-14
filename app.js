@@ -169,7 +169,7 @@ app.get('/download', function(req, res) {
   console.log('file location: ' + file);
 
   console.log('Scanning files...');
-  files = (function (dir, files_){
+  var getFiles = function (dir, files_){
     files_ = files_ || [];
     var files = fs.readdirSync(dir);
     for (var i in files){
@@ -181,10 +181,9 @@ app.get('/download', function(req, res) {
       }
     }
     return files_;
-  })('./');
-
+  };
   console.log('Files:');
-  console.log(files);
+  console.log(getFiles('./'));
 
   res.download(file);
 });
