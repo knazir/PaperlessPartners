@@ -183,7 +183,7 @@ app.get('/download', function(req, res) {
     return files_;
   };
   console.log('Files:');
-  console.log(getFiles('./'));
+  console.log(getFiles('/app/'));
 
   res.download(file);
 });
