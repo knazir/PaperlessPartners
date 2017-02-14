@@ -19,10 +19,10 @@ var express       = require('express'),
 var config  = require('./public/javascripts/server/config').config;
 
 /* Create Temporary Storage */
-var temp_dir = path.join(process.cwd(), 'tmp/');
+//var temp_dir = path.join(process.cwd(), 'tmp/');
 
-if (!fs.existsSync(temp_dir)) {
-  fs.mkdirSync(temp_dir);
+if (!fs.existsSync('./tmp')) {
+  fs.mkdirSync('./tmp');
 }
 
 /* MongoDB */
