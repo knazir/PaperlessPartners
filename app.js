@@ -166,29 +166,29 @@ app.get('/download', function(req, res) {
   console.log('Location: ' + req.query.location);
   console.log('Token: ' + req.query.token);
 
-  var file = './public/downloads/' + req.query.token + '/' + req.query.location;
+  var file = '/app/public/downloads/' + req.query.token + '/' + req.query.location;
   console.log('file location: ' + file);
 
-  console.log('Scanning files...');
-  var getFiles = function (dir, files_){
-    files_ = files_ || [];
-    var files = fs.readdirSync(dir);
-    for (var i in files){
-      var name = dir + '/' + files[i];
-      if (fs.statSync(name).isDirectory()){
-        getFiles(name, files_);
-      } else {
-        files_.push(name);
-      }
-    }
-    return files_;
-  };
-
-  var files = getFiles('/app');
-  console.log('Files:');
-  for (var i = 0; i < files.length; i++) {
-    console.log(files[i]);
-  }
+  // console.log('Scanning files...');
+  // var getFiles = function (dir, files_){
+  //   files_ = files_ || [];
+  //   var files = fs.readdirSync(dir);
+  //   for (var i in files){
+  //     var name = dir + '/' + files[i];
+  //     if (fs.statSync(name).isDirectory()){
+  //       getFiles(name, files_);
+  //     } else {
+  //       files_.push(name);
+  //     }
+  //   }
+  //   return files_;
+  // };
+  //
+  // var files = getFiles('/app');
+  // console.log('Files:');
+  // for (var i = 0; i < files.length; i++) {
+  //   console.log(files[i]);
+  // }
 
   res.download(file);
 });
