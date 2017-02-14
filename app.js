@@ -158,6 +158,8 @@ app.get('/download', function(req, res) {
   console.log('Token: ' + req.query.token);
 
   var file = '/tmp/downloads/' + req.query.token + '/' + req.query.location;
+  console.log('file: ' + file);
+
   res.download(file);
 });
 
@@ -176,7 +178,9 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.send('An error occurred. Status: ' + (err.status || 500) + '. Message: ' + err.message + '. Error: ' + req.app.get('env') === 'development' ? err : {});
+
+  var errorStatus = err.status || 500;
+  res.send('An error occurred. Status: ' + errorStatus + '. Message: ' + err.message + '.');
   //res.sendFile('./public/html/error.html', {root: __dirname});
 });
 
