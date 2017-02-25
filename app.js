@@ -129,6 +129,9 @@ app.post('/compile', function(req, res) {
       req.body.token
   ];
 
+  console.log('PROCESSING REQUEST FOR: ' + req.body.user + ' | ' + req.body.course + '-' + req.body.quarter +
+              '-' + req.body.assignment);
+
   var child = childProcess.execFile(binPath, childArgs, function(err, stdout, stderr) {
     console.log('Downloaded submissions for user: ' + req.body.user);
   });
