@@ -169,9 +169,9 @@ app.get('/download', function(req, res) {
   var file = './public/downloads/' + req.query.token + '/' + req.query.location;
   console.log('file location: ' + file);
   if (fs.existsSync(file)) {
-    console.log(file + 'EXISTS!');
+    console.log(file + ' EXISTS!');
   } else {
-    console.log(file + 'DOES NOT EXIST!');
+    console.log(file + ' DOES NOT EXIST!');
   }
 
   console.log('Scanning files...');

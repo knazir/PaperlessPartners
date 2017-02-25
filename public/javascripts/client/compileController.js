@@ -33,9 +33,10 @@ angular.module('main').controller('compileController', ['$scope', '$http', 'sock
             if ($scope.message.startsWith('Finished.')) {
                 $scope.loading = false;
                 var token = data.getData().userData.token;
-                var fileLocation = $scope.userData.user + '/' + $scope.userData.course + '/' +
-                                   $scope.userData.quarter + '/' + 'assignment' + $scope.userData.assignment +
-                                   '/assignment' + $scope.userData.assignment + '_submissions.zip';
+                var fileLocation = $scope.userData.user + '/' + $scope.userData.course.toUpperCase() + '/' +
+                                   $scope.userData.quarter.toUpperCase() + '/' + 'assignment' +
+                                   $scope.userData.assignment + '/assignment' + $scope.userData.assignment +
+                                   '_submissions.zip';
 
                 var link = window.location.protocol + "//" + window.location.host + "/download";
                 link += '?token=' + token + '&location=' + fileLocation;
